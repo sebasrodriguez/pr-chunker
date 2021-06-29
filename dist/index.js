@@ -543,6 +543,7 @@ var __webpack_exports__ = {};
 const core = __nccwpck_require__(186);
 
 console.log(`Creating PR if it exceeds ${core.getInput('max-diff')}`);
+console.log(`Creating PR if it exceeds ${core.getInput('staging-branch')}`);
 })();
 
 module.exports = __webpack_exports__;
