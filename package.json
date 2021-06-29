@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "release": "npm run prepare && git add . && git commit -m 'wip: Updating action' && git push",
     "prepare": "ncc build index.js -o dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
