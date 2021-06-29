@@ -1858,10 +1858,17 @@ var __webpack_exports__ = {};
 const core = __nccwpck_require__(186);
 const exec = __nccwpck_require__(514);
 
-console.log(`Creating PR if it exceeds ${core.getInput('max-diff')}`);
-console.log(`Diffing against ${core.getInput('staging-branch')}`);
+console.log(`Creating PR if it exceeds ${core.getInput("max-diff")}`);
+console.log(`Diffing against ${core.getInput("staging-branch")}`);
 
-exec.exec(`git diff --shortstat origin/${core.getInput('staging-branch')}`);
+exec
+  .getExecOutput(
+    `git diff --shortstat origin/${core.getInput("staging-branch")}`
+  )
+  .then((value) => {
+    console.log(value.stdout);
+  });
+
 })();
 
 module.exports = __webpack_exports__;
