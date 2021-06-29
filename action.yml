@@ -5,6 +5,10 @@ inputs:
     description: 'Maximum number of changes before creating a PR'
     required: true
     default: '1000'
+  staging-branch:
+    description: 'The name of the staging branch'
+    required: false
+    default: 'staging'
 runs:
   using: 'node12'
   main: 'dist/index.js'
