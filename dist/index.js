@@ -1861,7 +1861,7 @@ const exec = __nccwpck_require__(514);
 console.log(`Creating PR if it exceeds ${core.getInput('max-diff')}`);
 console.log(`Diffing against ${core.getInput('staging-branch')}`);
 
-exec.exec(`git diff ${core.getInput('staging-branch')}`);
+exec.exec(`git diff origin/${core.getInput('staging-branch')}`);
 })();
 
 module.exports = __webpack_exports__;
