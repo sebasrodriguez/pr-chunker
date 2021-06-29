@@ -1869,6 +1869,7 @@ exec
     console.log(value.stdout);
   });
 
+exec.exec('gh --help');
 })();
 
 module.exports = __webpack_exports__;

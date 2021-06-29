@@ -11,3 +11,5 @@ exec
   .then((value) => {
     console.log(value.stdout);
   });
+
+exec.exec('gh --help');
