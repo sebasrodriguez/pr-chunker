@@ -1,0 +1,10 @@
+name: 'PR Chunking'
+description: 'Automatically creates PRs when a list of commits exceeds a defined threshold'
+inputs:
+  max-diff:
+    description: 'Maximum number of changes before creating a PR'
+    required: true
+    default: '1000'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
