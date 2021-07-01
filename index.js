@@ -8,7 +8,7 @@ console.log(`Diffing against ${core.getInput("base-branch")}`);
 
 const getMissingCommits = async (baseBranch, branch) => {
   const { stdout } = await exec.getExecOutput(
-    `git log origin/${baseBranch} ^origin/${branch} --format=format:%H`
+    `git log ${baseBranch} ^${branch} --format=format:%H`
   );
 
   const result = stdout.split("\n").reverse();
@@ -18,7 +18,7 @@ const getMissingCommits = async (baseBranch, branch) => {
 
 const getDiff = async (origin, target) => {
   const { stdout } = await exec.getExecOutput(
-    `git diff origin/${target}..origin/${origin} --shortstat`
+    `git diff ${target}..${origin} --shortstat`
   );
   const regExp =
     /((?<insertions>\d+)\sinsertions)|((?<deletion>\d+)\sdeletion)/;
@@ -31,10 +31,13 @@ const getDiff = async (origin, target) => {
 };
 
 const getPRCommit = async () => {
-  const missingCommits = await getMissingCommits("develop", "staging");
+  const missingCommits = await getMissingCommits(`origin/develop`, baseBranch);
 
   for (let index = 0; index < missingCommits.length; index++) {
-    const localDiff = await getDiff(missingCommits[index], "staging");
+    const localDiff = await getDiff(
+      missingCommits[index],
+      `origin/${baseBranch}`
+    );
 
     if (localDiff >= limit) {
       const commitIdForPR =
@@ -83,7 +86,7 @@ const createPRIfNotExists = async (branch, commitId) => {
 
 const run = async () => {
   try {
-    const diff = await getDiff("develop", baseBranch);
+    const diff = await getDiff("origin/develop", `origin/${baseBranch}`);
 
     if (diff >= limit) {
       console.log(
