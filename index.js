@@ -18,7 +18,7 @@ const getMissingCommits = async (baseBranch, branch) => {
 
 const getDiff = async (origin, target) => {
   const { stdout } = await exec.getExecOutput(
-    `git diff ${target}..${origin} --shortstat`
+    `git diff origin/${target}..origin/${origin} --shortstat`
   );
   const regExp =
     /((?<insertions>\d+)\sinsertions)|((?<deletion>\d+)\sdeletion)/;
