@@ -1,14 +1,18 @@
-name: 'PR Chunking'
-description: 'Automatically creates PRs when a list of commits exceeds a defined threshold'
+name: "PR Chunking"
+description: "Automatically creates PRs when a list of commits exceeds a defined threshold"
 inputs:
   max-diff:
-    description: 'Maximum number of changes before creating a PR'
+    description: "Maximum number of changes before creating a PR"
     required: true
-    default: '1000'
-  staging-branch:
-    description: 'The name of the staging branch'
+    default: "30"
+  buffer:
+    description: "Define a buffer in order to create PRs if max-diff - buffer is surpased"
     required: false
-    default: 'staging'
+    default: "0"
+  base-branch:
+    description: "The name of the base branch"
+    required: false
+    default: "staging"
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: "node12"
+  main: "dist/index.js"
