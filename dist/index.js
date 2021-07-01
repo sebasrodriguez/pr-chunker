@@ -1888,7 +1888,10 @@ const getDiff = async (origin, target) => {
 };
 
 const getPRCommit = async () => {
-  const missingCommits = await getMissingCommits(`origin/develop`, baseBranch);
+  const missingCommits = await getMissingCommits(
+    `origin/develop`,
+    `origin/${baseBranch}`
+  );
 
   for (let index = 0; index < missingCommits.length; index++) {
     const localDiff = await getDiff(
