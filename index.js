@@ -8,7 +8,7 @@ console.log(`Diffing against ${core.getInput("base-branch")}`);
 
 const getMissingCommits = async (baseBranch, branch) => {
   const { stdout } = await exec.getExecOutput(
-    `git log ${baseBranch} ^${branch} --format=format:%H`
+    `git log origin/${baseBranch} ^origin/${branch} --format=format:%H`
   );
 
   const result = stdout.split("\n").reverse();
