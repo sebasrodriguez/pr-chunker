@@ -28,8 +28,10 @@ const getDiff = async (origin, target) => {
   const insertionsMatch = insertionsRegExp.exec(stdout);
   const deletionsMatch = deletionsRegExp.exec(stdout);
 
-  const insertions = insertionsMatch.length >= 1 ? +insertionsMatch[1] : 0;
-  const deletions = deletionsMatch.length >= 1 ? +deletionsMatch[1] : 0;
+  const insertions =
+    insertionsMatch && insertionsMatch.length >= 1 ? +insertionsMatch[1] : 0;
+  const deletions =
+    deletionsMatch && deletionsMatch.length >= 1 ? +deletionsMatch[1] : 0;
 
   const totalDiff = insertions + deletions;
 
