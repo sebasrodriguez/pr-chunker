@@ -4519,7 +4519,7 @@ const createBranchIfNotExists = async (commitId) => {
 
 const createPRIfNotExists = async (branch, commitId) => {
   const response = await request(`GET /search/issues`, {
-      q: 'is:pr is:open'
+      q: `is:pr is:closed repo:${process.env.GITHUB_REPOSITORY}`
   });
 
   console.log(response);
