@@ -113,7 +113,7 @@ const createPRIfNotExists = async (branch, commitId) => {
 
 const run = async () => {
   try {
-    const diff = await getDiff(`master`, `test`);
+    const diff = await getDiff(`origin/${mainBranch}`, `origin/${baseBranch}`);
 
     if (diff >= limit) {
       core.info(
