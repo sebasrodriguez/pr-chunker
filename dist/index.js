@@ -4530,8 +4530,7 @@ const createPRIfNotExists = async (branch, commitId) => {
     }
   );
 
-  console.log(response);
-  if (!response.data) {
+  if (response.data.length === 0) {
     console.log("AutoMerger: Create PR");
   } else {
     console.info("AutoMerger: PR already exists, skipping creation");
