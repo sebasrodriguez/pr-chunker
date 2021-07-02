@@ -111,6 +111,7 @@ const run = async () => {
   try {
     const diff = await getDiff(`origin/${mainBranch}`, `origin/${baseBranch}`);
 
+    console.log({ diff, limit});
     if (diff >= limit) {
       core.info(
         `AutoMerger: Will create PR if not exists because we have ${diff} lines changed`
