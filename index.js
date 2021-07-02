@@ -3,10 +3,9 @@ const exec = require("@actions/exec");
 const { request } = require("@octokit/request");
 
 const token = core.getInput("access-token");
-const limit = +core.getInput("max-diff") - +core.getInput("buffer");
+const limit = +core.getInput("max-diff");
+const mainBranch = core.getInput("main-branch");
 const baseBranch = core.getInput("base-branch");
-console.log(`Creating PR if it exceeds ${limit}`);
-console.log(`Diffing against ${core.getInput("base-branch")}`);
 
 const getMissingCommits = async (baseBranch, branch) => {
   const { stdout } = await exec.getExecOutput(
@@ -34,7 +33,7 @@ const getDiff = async (origin, target) => {
 
 const getPRCommit = async () => {
   const missingCommits = await getMissingCommits(
-    `origin/develop`,
+    `origin/${mainBranch}`,
     `origin/${baseBranch}`
   );
 
@@ -110,11 +109,11 @@ const createPRIfNotExists = async (branch, commitId) => {
 
 const run = async () => {
   try {
-    const diff = await getDiff("origin/develop", `origin/${baseBranch}`);
+    const diff = await getDiff(`origin/${mainBranch}`, `origin/${baseBranch}`);
 
     if (diff >= limit) {
       console.log(
-        `AutoMerger: Should create pr because we have ${diff} lines changed`
+        `AutoMerger: Will create PR if not exists because we have ${diff} lines changed`
       );
       const commitIdForPR = await getPRCommit();
       const branch = await createBranchIfNotExists(commitIdForPR);

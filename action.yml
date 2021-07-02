@@ -8,14 +8,14 @@ inputs:
     description: "Maximum number of changes before creating a PR"
     required: true
     default: "30"
-  buffer:
-    description: "Define a buffer in order to create PRs if max-diff - buffer is surpased"
-    required: false
-    default: "0"
   base-branch:
     description: "The name of the base branch"
-    required: false
+    required: true
     default: "staging"
+  base-branch:
+    description: "The name of the main branch"
+    required: true
+    default: "develop"
 runs:
   using: "node12"
   main: "dist/index.js"
