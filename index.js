@@ -21,15 +21,17 @@ const getDiff = async (origin, target) => {
   const { stdout } = await exec.getExecOutput(
     `git diff ${target}..${origin} --shortstat`
   );
-  const regExp =
-    /((?<insertions>\d+)\sinsertions)|((?<deletion>\d+)\sdeletion)/gm;
-  const match = regExp.exec(stdout);
 
-  const totalDiff = !match
-    ? 0
-    : (+match.groups.deletion || 0) + (+match.groups.insertions || 0);
+  const insertionsRegExp = /(\d+)\sinsertions/gm;
+  const deletionsRegExp = /(?<deletions>\d+)\sdeletions/gm;
 
-  console.log(match.groups);
+  const insertionsMatch = insertionsRegExp.exec(stdout);
+  const deletionsMatch = deletionsRegExp.exec(stdout);
+
+  const insertions = insertionsMatch.length >= 1 ? +insertionsMatch[1] : 0;
+  const deletions = deletionsMatch.length >= 1 ? +deletionsMatch[1] : 0;
+
+  const totalDiff = insertions + deletions;
 
   return totalDiff;
 };
@@ -111,9 +113,8 @@ const createPRIfNotExists = async (branch, commitId) => {
 
 const run = async () => {
   try {
-    const diff = await getDiff(`origin/${mainBranch}`, `origin/${baseBranch}`);
+    const diff = await getDiff(`master`, `test`);
 
-    console.log({ diff, limit });
     if (diff >= limit) {
       core.info(
         `AutoMerger: Will create PR if not exists because we have ${diff} lines changed`
