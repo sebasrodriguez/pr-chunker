@@ -12,7 +12,7 @@ inputs:
     description: "The name of the base branch"
     required: true
     default: "staging"
-  base-branch:
+  main-branch:
     description: "The name of the main branch"
     required: true
     default: "develop"
