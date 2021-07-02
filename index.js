@@ -81,10 +81,10 @@ const createPRIfNotExists = async (branch, commitId) => {
     headers: {
       authorization: `token ${token}`,
     },
-    q: `is:pr is:closed repo:${process.env.GITHUB_REPOSITORY}`,
+    q: `is:pr is:open repo:${process.env.GITHUB_REPOSITORY} in:title:"[AutoMerger]: ${commitId}"`,
   });
 
-  console.log(response);
+  console.log(response.data.items);
   //   const searchOutput = await exec.getExecOutput(
   //     `gh pr list --search "body:'${commitId}'"`
   //   );
