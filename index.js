@@ -77,12 +77,21 @@ const createBranchIfNotExists = async (commitId) => {
 };
 
 const createPRIfNotExists = async (branch, commitId) => {
-  const response = await request(`GET /search/issues`, {
-    headers: {
-      authorization: `token ${token}`,
-    },
-    q: `is:pr is:open repo:${process.env.GITHUB_REPOSITORY} in:title:"[AutoMerger]: ${commitId}"`,
-  });
+  //   const response = await request(`GET /search/issues`, {
+  //     headers: {
+  //       authorization: `token ${token}`,
+  //     },
+  //     q: `is:pr is:open repo:${process.env.GITHUB_REPOSITORY} in:title:"[AutoMerger]: ${commitId}"`,
+  //   });
+  const response = await request(
+    `GET /repos/${process.env.GITHUB_REPOSITORY}/pulls`,
+    {
+      headers: {
+        authorization: `token ${token}`,
+      },
+      base: baseBranch,
+    }
+  );
 
   console.log(response.data.items);
   //   const searchOutput = await exec.getExecOutput(
