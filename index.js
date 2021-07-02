@@ -44,7 +44,6 @@ const getPRCommit = async () => {
       `origin/${baseBranch}`
     );
 
-    console.log({ localDiff, limit });
     if (localDiff >= limit) {
       const commitIdForPR =
         index === 0 ? missingCommits[0] : missingCommits[index - 1];
@@ -89,18 +88,11 @@ const createPRIfNotExists = async (branch, commitId) => {
     }
   );
 
-  console.log(response);
-  //   const searchOutput = await exec.getExecOutput(
-  //     `gh pr list --search "body:'${commitId}'"`
-  //   );
-
-  //   if (searchOutput.stdout.includes("No pull requests match your search")) {
-  //     const createOutput = await exec.getExecOutput(
-  //       `gh pr create --base staging --title "[AutoMerger]: ${commitId}" --body "${commitId}" --head "${branch}"`
-  //     );
-  //   } else {
-  //     console.info("AutoMerger: PR already exists, skipping creation");
-  //   }
+  if (response.data.items.length === 0) {
+    console.log("AutoMerger: Create PR");
+  } else {
+    console.info("AutoMerger: PR already exists, skipping creation");
+  }
 };
 
 const run = async () => {
