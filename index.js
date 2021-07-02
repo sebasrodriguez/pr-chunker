@@ -88,6 +88,7 @@ const createPRIfNotExists = async (branch, commitId) => {
     }
   );
 
+  console.log(response);
   if (!response.data) {
     console.log("AutoMerger: Create PR");
   } else {
