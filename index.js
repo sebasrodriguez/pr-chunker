@@ -29,6 +29,8 @@ const getDiff = async (origin, target) => {
     ? 0
     : (+match.groups.deletion || 0) + (+match.groups.insertions || 0);
 
+  console.log(match.groups);
+
   return totalDiff;
 };
 
@@ -111,7 +113,7 @@ const run = async () => {
   try {
     const diff = await getDiff(`origin/${mainBranch}`, `origin/${baseBranch}`);
 
-    console.log({ diff, limit});
+    console.log({ diff, limit });
     if (diff >= limit) {
       core.info(
         `AutoMerger: Will create PR if not exists because we have ${diff} lines changed`
