@@ -25,8 +25,9 @@ const getDiff = async (origin, target) => {
     /((?<insertions>\d+)\sinsertions)|((?<deletion>\d+)\sdeletion)/;
   const match = regExp.exec(stdout);
 
-  const totalDiff =
-    (+match.groups.deletion || 0) + (+match.groups.insertions || 0);
+  const totalDiff = !match
+    ? 0
+    : (+match.groups.deletion || 0) + (+match.groups.insertions || 0);
 
   return totalDiff;
 };
