@@ -101,8 +101,7 @@ const createPRIfNotExists = async (branch, commitId) => {
         body: `This PR was automatically created by AutoMerger`,
       }
     );
-
-    console.log(response);
+    console.info(`AutoMerger: PR created, ${response.data.url}`);
   } else {
     console.info("AutoMerger: PR already exists, skipping creation");
   }
