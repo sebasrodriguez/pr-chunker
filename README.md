@@ -21,17 +21,22 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          token: ${{ secrets.ACCESS_TOKEN }}
       - run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
       - uses: sebasrodriguez/pr-chunker@master
         env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         with:
-          max-diff: "50"
+          max-diff: "1000"
           base-branch: "staging"
           main-branch: "develop"
 ```
+
+A specific personal access token needs to be specified with workflow access to be able to create branches and pull requests.
+
+![Access configuration](./images/access.png)
 
 ## Recommendations
 
