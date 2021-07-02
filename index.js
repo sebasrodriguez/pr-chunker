@@ -1,10 +1,12 @@
 const core = require("@actions/core");
 const exec = require("@actions/exec");
+const { request } = require("@octokit/request");
 
 const limit = +core.getInput("max-diff") - +core.getInput("buffer");
 const baseBranch = core.getInput("base-branch");
 console.log(`Creating PR if it exceeds ${limit}`);
 console.log(`Diffing against ${core.getInput("base-branch")}`);
+console.log(github.repository);
 
 const getMissingCommits = async (baseBranch, branch) => {
   const { stdout } = await exec.getExecOutput(
@@ -74,6 +76,7 @@ const createBranchIfNotExists = async (commitId) => {
 };
 
 const createPRIfNotExists = async (branch, commitId) => {
+//    await request(`GET /repos/`);
   const searchOutput = await exec.getExecOutput(
     `gh pr list --search "body:'${commitId}'"`
   );
@@ -97,7 +100,7 @@ const run = async () => {
       );
       const commitIdForPR = await getPRCommit();
       const branch = await createBranchIfNotExists(commitIdForPR);
-      await createPRIfNotExists(branch, commitIdForPR);
+    //   await createPRIfNotExists(branch, commitIdForPR);
     } else {
       console.log("AutoMerger: Skipping automatic pr creation");
     }
