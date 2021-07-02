@@ -4525,6 +4525,7 @@ const createPRIfNotExists = async (branch, commitId) => {
   //     },
   //     q: `is:pr is:open repo:${process.env.GITHUB_REPOSITORY} in:title:"[AutoMerger]: ${commitId}"`,
   //   });
+  const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/");
   const response = await request(
     `GET /repos/${process.env.GITHUB_REPOSITORY}/pulls`,
     {
@@ -4532,6 +4533,7 @@ const createPRIfNotExists = async (branch, commitId) => {
         authorization: `token ${token}`,
       },
       base: baseBranch,
+      head: `${owner}:${branch}`,
     }
   );
 
