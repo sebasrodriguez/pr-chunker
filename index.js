@@ -7,7 +7,6 @@ const limit = +core.getInput("max-diff") - +core.getInput("buffer");
 const baseBranch = core.getInput("base-branch");
 console.log(`Creating PR if it exceeds ${limit}`);
 console.log(`Diffing against ${core.getInput("base-branch")}`);
-console.log(process.env.GITHUB_REPOSITORY);
 
 const getMissingCommits = async (baseBranch, branch) => {
   const { stdout } = await exec.getExecOutput(
@@ -45,6 +44,7 @@ const getPRCommit = async () => {
       `origin/${baseBranch}`
     );
 
+    console.log({ localDiff, limit });
     if (localDiff >= limit) {
       const commitIdForPR =
         index === 0 ? missingCommits[0] : missingCommits[index - 1];
@@ -77,13 +77,7 @@ const createBranchIfNotExists = async (commitId) => {
 };
 
 const createPRIfNotExists = async (branch, commitId) => {
-  //   const response = await request(`GET /search/issues`, {
-  //     headers: {
-  //       authorization: `token ${token}`,
-  //     },
-  //     q: `is:pr is:open repo:${process.env.GITHUB_REPOSITORY} in:title:"[AutoMerger]: ${commitId}"`,
-  //   });
-  const [owner, repo] = process.env.GITHUB_REPOSITORY.split("/");
+  const [owner] = process.env.GITHUB_REPOSITORY.split("/");
   const response = await request(
     `GET /repos/${process.env.GITHUB_REPOSITORY}/pulls`,
     {
