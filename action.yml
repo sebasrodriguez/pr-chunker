@@ -1,6 +1,9 @@
 name: "PR Chunking"
 description: "Automatically creates PRs when a list of commits exceeds a defined threshold"
 inputs:
+  access-token:
+    description: "Github access token"
+    required: true
   max-diff:
     description: "Maximum number of changes before creating a PR"
     required: true

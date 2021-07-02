@@ -4444,6 +4444,7 @@ const core = __nccwpck_require__(186);
 const exec = __nccwpck_require__(514);
 const { request } = __nccwpck_require__(234);
 
+const token = core.getInput("access-token");
 const limit = +core.getInput("max-diff") - +core.getInput("buffer");
 const baseBranch = core.getInput("base-branch");
 console.log(`Creating PR if it exceeds ${limit}`);
@@ -4519,21 +4520,24 @@ const createBranchIfNotExists = async (commitId) => {
 
 const createPRIfNotExists = async (branch, commitId) => {
   const response = await request(`GET /search/issues`, {
-      q: `is:pr is:closed repo:${process.env.GITHUB_REPOSITORY}`
+    headers: {
+      authorization: `token ${token}`,
+    },
+    q: `is:pr is:closed repo:${process.env.GITHUB_REPOSITORY}`,
   });
 
   console.log(response);
-//   const searchOutput = await exec.getExecOutput(
-//     `gh pr list --search "body:'${commitId}'"`
-//   );
+  //   const searchOutput = await exec.getExecOutput(
+  //     `gh pr list --search "body:'${commitId}'"`
+  //   );
 
-//   if (searchOutput.stdout.includes("No pull requests match your search")) {
-//     const createOutput = await exec.getExecOutput(
-//       `gh pr create --base staging --title "[AutoMerger]: ${commitId}" --body "${commitId}" --head "${branch}"`
-//     );
-//   } else {
-//     console.info("AutoMerger: PR already exists, skipping creation");
-//   }
+  //   if (searchOutput.stdout.includes("No pull requests match your search")) {
+  //     const createOutput = await exec.getExecOutput(
+  //       `gh pr create --base staging --title "[AutoMerger]: ${commitId}" --body "${commitId}" --head "${branch}"`
+  //     );
+  //   } else {
+  //     console.info("AutoMerger: PR already exists, skipping creation");
+  //   }
 };
 
 const run = async () => {
