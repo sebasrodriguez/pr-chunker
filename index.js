@@ -22,7 +22,7 @@ const getDiff = async (origin, target) => {
     `git diff ${target}..${origin} --shortstat`
   );
   const regExp =
-    /((?<insertions>\d+)\sinsertions)|((?<deletion>\d+)\sdeletion)/;
+    /((?<insertions>\d+)\sinsertions)|((?<deletion>\d+)\sdeletion)/gm;
   const match = regExp.exec(stdout);
 
   const totalDiff = !match
