@@ -66,7 +66,7 @@ const createBranchIfNotExists = async (commitId) => {
   }
 
   if (exists) {
-    console.info("AutoMerger: Branch already exists, skipping creation");
+    core.info("AutoMerger: Branch already exists, skipping creation");
   } else {
     await exec.exec(`git branch ${branch} ${commitId}`);
     await exec.exec(`git push -u origin ${branch}`);
@@ -101,9 +101,9 @@ const createPRIfNotExists = async (branch, commitId) => {
         body: `This PR was automatically created by AutoMerger`,
       }
     );
-    console.info(`AutoMerger: PR created, ${response.data.url}`);
+    core.info(`AutoMerger: PR created, ${response.data.url}`);
   } else {
-    console.info("AutoMerger: PR already exists, skipping creation");
+    core.info("AutoMerger: PR already exists, skipping creation");
   }
 };
 
@@ -112,17 +112,17 @@ const run = async () => {
     const diff = await getDiff(`origin/${mainBranch}`, `origin/${baseBranch}`);
 
     if (diff >= limit) {
-      console.log(
+      core.info(
         `AutoMerger: Will create PR if not exists because we have ${diff} lines changed`
       );
       const commitIdForPR = await getPRCommit();
       const branch = await createBranchIfNotExists(commitIdForPR);
       await createPRIfNotExists(branch, commitIdForPR);
     } else {
-      console.log("AutoMerger: Skipping automatic pr creation");
+      core.info("AutoMerger: Skipping automatic pr creation");
     }
   } catch (e) {
-    console.log(e);
+    core.error(e);
   }
 };
 
