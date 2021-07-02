@@ -93,7 +93,7 @@ const createPRIfNotExists = async (branch, commitId) => {
     }
   );
 
-  console.log(response.data.items);
+  console.log(response);
   //   const searchOutput = await exec.getExecOutput(
   //     `gh pr list --search "body:'${commitId}'"`
   //   );
