@@ -89,7 +89,20 @@ const createPRIfNotExists = async (branch, commitId) => {
   );
 
   if (response.data.length === 0) {
-    console.log("AutoMerger: Create PR");
+    const response = await request(
+      `POST /repos/${process.env.GITHUB_REPOSITORY}/pulls`,
+      {
+        headers: {
+          authorization: `token ${token}`,
+        },
+        title: `[AutoMerger]: ${commitId}`,
+        head: branch,
+        base: baseBranch,
+        body: `This PR was automatically created by AutoMerger`,
+      }
+    );
+
+    console.log(response);
   } else {
     console.info("AutoMerger: PR already exists, skipping creation");
   }
