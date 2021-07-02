@@ -6,7 +6,7 @@ const limit = +core.getInput("max-diff") - +core.getInput("buffer");
 const baseBranch = core.getInput("base-branch");
 console.log(`Creating PR if it exceeds ${limit}`);
 console.log(`Diffing against ${core.getInput("base-branch")}`);
-console.log(github.repository);
+console.log(process.env.GITHUB_REPOSITORY);
 
 const getMissingCommits = async (baseBranch, branch) => {
   const { stdout } = await exec.getExecOutput(
