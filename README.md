@@ -50,5 +50,5 @@ Having this environment branches:
 
 If develop has multiple commits that haven't been merged onto staging and they pass the specified threshold, pr-chunker will automatically create a PR with the maximum amount of commits before passing the limit so that staging is not too far behind develop.
 
-For an ideal flow the merges to develop should be **atomic**, meaning that **squash and merge** is desired in order to ensure full changes to be released on each automatic PR.
+PR-CHUNKER is best used when the merging strategy to **develop** is squash and merge, the reason for that is because it will ensure that features / fixes are atomic and will avoid partial merges when there are multiple commits.
 
