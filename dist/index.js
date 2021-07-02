@@ -4444,7 +4444,7 @@ const core = __nccwpck_require__(186);
 const exec = __nccwpck_require__(514);
 const { request } = __nccwpck_require__(234);
 
-const token = core.getInput("access-token");
+const token = process.env.GITHUB_TOKEN;
 const limit = +core.getInput("max-diff");
 const mainBranch = core.getInput("main-branch");
 const baseBranch = core.getInput("base-branch");

@@ -2,7 +2,7 @@ const core = require("@actions/core");
 const exec = require("@actions/exec");
 const { request } = require("@octokit/request");
 
-const token = core.getInput("access-token");
+const token = process.env.GITHUB_TOKEN;
 const limit = +core.getInput("max-diff");
 const mainBranch = core.getInput("main-branch");
 const baseBranch = core.getInput("base-branch");
