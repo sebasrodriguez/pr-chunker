@@ -76,18 +76,22 @@ const createBranchIfNotExists = async (commitId) => {
 };
 
 const createPRIfNotExists = async (branch, commitId) => {
-//    await request(`GET /repos/`);
-  const searchOutput = await exec.getExecOutput(
-    `gh pr list --search "body:'${commitId}'"`
-  );
+  const response = await request(`GET /search/issues`, {
+      q: 'is:pr is:open'
+  });
 
-  if (searchOutput.stdout.includes("No pull requests match your search")) {
-    const createOutput = await exec.getExecOutput(
-      `gh pr create --base staging --title "[AutoMerger]: ${commitId}" --body "${commitId}" --head "${branch}"`
-    );
-  } else {
-    console.info("AutoMerger: PR already exists, skipping creation");
-  }
+  console.log(response);
+//   const searchOutput = await exec.getExecOutput(
+//     `gh pr list --search "body:'${commitId}'"`
+//   );
+
+//   if (searchOutput.stdout.includes("No pull requests match your search")) {
+//     const createOutput = await exec.getExecOutput(
+//       `gh pr create --base staging --title "[AutoMerger]: ${commitId}" --body "${commitId}" --head "${branch}"`
+//     );
+//   } else {
+//     console.info("AutoMerger: PR already exists, skipping creation");
+//   }
 };
 
 const run = async () => {
@@ -100,7 +104,7 @@ const run = async () => {
       );
       const commitIdForPR = await getPRCommit();
       const branch = await createBranchIfNotExists(commitIdForPR);
-    //   await createPRIfNotExists(branch, commitIdForPR);
+      await createPRIfNotExists(branch, commitIdForPR);
     } else {
       console.log("AutoMerger: Skipping automatic pr creation");
     }
